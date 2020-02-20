@@ -1,0 +1,62 @@
+spring:
+  datasource:
+    name: ds_1
+    username: root
+    password: password
+    url: jdbc:mysql://localhost:3306/ds_1?autoReconnect=true&useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Jakarta
+    hikari:
+      connection-test-query: SELECT 1;
+      connection-timeout: 30000
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      maximum-pool-size: 30
+      minimum-idle: 5
+      validation-timeout: 28000
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL57InnoDBDialect
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+      use-new-id-generator-mappings: true
+    open-in-view: false
+    properties:
+      hibernate.format_sql: true
+    show-sql: false
+  flyway:
+    enabled: true
+    url: ${spring.datasource.url}
+    user: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+    baseline-on-migrate: true
+    locations: classpath:db/migration/mysql
+app:
+  datasource:
+    lenient-fallback: false
+  datasources:
+    - name: ds_2
+      username: root
+      password: password
+      url: jdbc:mysql://localhost:3306/ds_2?autoReconnect=true&useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Jakarta
+      hikari:
+        connection-test-query: SELECT 1;
+        connection-timeout: 30000
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        idle-timeout: 600000
+        max-lifetime: 1800000
+        maximum-pool-size: 30
+        minimum-idle: 5
+        validation-timeout: 28000
+    - name: ds_3
+      username: root
+      password: password
+      url: jdbc:mysql://localhost:3306/ds_3?autoReconnect=true&useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Jakarta
+      hikari:
+        connection-test-query: SELECT 1;
+        connection-timeout: 30000
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        idle-timeout: 600000
+        max-lifetime: 1800000
+        maximum-pool-size: 30
+        minimum-idle: 5
+        validation-timeout: 28000
