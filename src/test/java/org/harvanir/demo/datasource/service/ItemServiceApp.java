@@ -6,5 +6,5 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author Harvan Irsyadi
  */
 @SpringBootApplication
-public class ItemSerivceApp {
+public class ItemServiceApp {
 }

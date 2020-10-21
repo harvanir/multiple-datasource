@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * @author Harvan Irsyadi
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 public class TransactionRoutingDataSourceConfiguration {
 
     @Bean

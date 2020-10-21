@@ -3,11 +3,12 @@ spring:
     name: ds_1
     username: root
     password: password
-    url: jdbc:mysql://localhost:3306/ds_1?autoReconnect=true&useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Jakarta
+    url: jdbc:tc:mysql:5.7.31://127.0.0.1/ds_1?autoReconnect=true&useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Jakarta&TC_TMPFS=/var/lib/mysql:rw&TC_INITSCRIPT=db/migration/mysql/V1_1_1__create_items.sql
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
     hikari:
       connection-test-query: SELECT 1;
       connection-timeout: 30000
-      driver-class-name: com.mysql.cj.jdbc.Driver
+      driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
       idle-timeout: 600000
       max-lifetime: 1800000
       maximum-pool-size: 30
@@ -34,14 +35,27 @@ app:
   datasource:
     lenient-fallback: true
   datasources:
-    - name: ds_2
+    - name: ds_1
       username: root
       password: password
-      url: jdbc:mysql://localhost:3306/ds_2?autoReconnect=true&useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Jakarta
+      url: jdbc:tc:mysql:5.7.31://127.0.0.1/ds_1?autoReconnect=true&useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Jakarta&TC_TMPFS=/var/lib/mysql:rw&TC_INITSCRIPT=db/migration/mysql/V1_1_1__create_items.sql
       hikari:
         connection-test-query: SELECT 1;
         connection-timeout: 30000
-        driver-class-name: com.mysql.cj.jdbc.Driver
+        driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+        idle-timeout: 600000
+        max-lifetime: 1800000
+        maximum-pool-size: 30
+        minimum-idle: 5
+        validation-timeout: 28000
+    - name: ds_2
+      username: root
+      password: password
+      url: jdbc:tc:mysql:5.7.31://127.0.0.1/ds_2?autoReconnect=true&useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Jakarta&TC_TMPFS=/var/lib/mysql:rw&TC_INITSCRIPT=db/migration/mysql/V1_1_1__create_items.sql
+      hikari:
+        connection-test-query: SELECT 1;
+        connection-timeout: 30000
+        driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
         idle-timeout: 600000
         max-lifetime: 1800000
         maximum-pool-size: 30
@@ -50,11 +64,11 @@ app:
     - name: ds_3
       username: root
       password: password
-      url: jdbc:mysql://localhost:3306/ds_3?autoReconnect=true&useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Jakarta
+      url: jdbc:tc:mysql:5.7.31://127.0.0.1/ds_3?autoReconnect=true&useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Jakarta&TC_TMPFS=/var/lib/mysql:rw&TC_INITSCRIPT=db/migration/mysql/V1_1_1__create_items.sql
       hikari:
         connection-test-query: SELECT 1;
         connection-timeout: 30000
-        driver-class-name: com.mysql.cj.jdbc.Driver
+        driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
         idle-timeout: 600000
         max-lifetime: 1800000
         maximum-pool-size: 30

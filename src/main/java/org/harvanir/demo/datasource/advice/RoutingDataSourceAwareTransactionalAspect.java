@@ -14,13 +14,19 @@ import org.springframework.util.StringUtils;
 @Order(0)
 public class RoutingDataSourceAwareTransactionalAspect {
 
-    private Object openTheGateAndExecute(ProceedingJoinPoint proceedingJoinPoint, String dataSourceRouteKey) throws Throwable {
+    private Object openTheGateAndExecute(ProceedingJoinPoint proceedingJoinPoint, String dataSourceRouteKey, String previousRouteKey) throws Throwable {
         try {
             DataSourceContextHolder.setRouteKey(dataSourceRouteKey);
 
             return proceedingJoinPoint.proceed();
         } finally {
-            DataSourceContextHolder.clear();
+            if (previousRouteKey == null) {
+                DataSourceContextHolder.clear();
+            } else {
+                if (!previousRouteKey.equals(dataSourceRouteKey)) {
+                    DataSourceContextHolder.setRouteKey(previousRouteKey);
+                }
+            }
         }
     }
 
@@ -29,15 +35,18 @@ public class RoutingDataSourceAwareTransactionalAspect {
         String dataSourceRouteKey = transactional.dataSourceRouteKey();
 
         if (RouteContext.ALWAYS_NEW.equals(transactional.routeContext())) {
+            String previousRouteKey = DataSourceContextHolder.getRouteKey();
             validateRouteKey(dataSourceRouteKey);
 
-            return openTheGateAndExecute(proceedingJoinPoint, dataSourceRouteKey);
+            return openTheGateAndExecute(proceedingJoinPoint, dataSourceRouteKey, previousRouteKey);
         } else if (RouteContext.REQUIRED.equals(transactional.routeContext())) {
             validateRouteKey(dataSourceRouteKey);
 
-            String routeKey = DataSourceContextHolder.getRouteKey();
-            if (!dataSourceRouteKey.equals(routeKey)) {
-                return openTheGateAndExecute(proceedingJoinPoint, dataSourceRouteKey);
+            String previousRouteKey = DataSourceContextHolder.getRouteKey();
+            if (previousRouteKey == null) {
+                return openTheGateAndExecute(proceedingJoinPoint, dataSourceRouteKey, null);
+            } else if (!dataSourceRouteKey.equals(previousRouteKey)) {
+                return openTheGateAndExecute(proceedingJoinPoint, dataSourceRouteKey, previousRouteKey);
             }
         }
 

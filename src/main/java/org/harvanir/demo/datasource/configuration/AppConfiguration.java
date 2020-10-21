@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * @author Harvan Irsyadi
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(AppProperties.class)
 public class AppConfiguration {
 }

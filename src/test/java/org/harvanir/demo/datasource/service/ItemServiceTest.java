@@ -10,6 +10,7 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
@@ -23,10 +24,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * @author Harvan Irsyadi
  */
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ActiveProfiles("mysql")
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
 @SpringBootTest(classes = ItemServiceConfiguration.class)
-public class ItemServiceTest {
+class ItemServiceTest {
 
     @Autowired
     private ItemService itemService;

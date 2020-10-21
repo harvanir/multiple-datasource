@@ -13,6 +13,8 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.util.StringUtils;
 
 import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,7 +23,7 @@ import java.util.Map;
  *
  * @author Harvan Irsyadi
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties({DataSourceWrapperProperties.class, DataSourceRoutingProperties.class})
 public class RoutingDataSourceConfiguration {
 
@@ -78,8 +80,23 @@ public class RoutingDataSourceConfiguration {
 
     private void populateTargetDataSource(AppProperties appProperties, Map<Object, Object> dataSourceMap) {
         for (DataSourceWrapperProperties dataSourceWrapperProperties : appProperties.getDatasources()) {
+            if (dataSourceWrapperProperties.getDriverClassName() == null) {
+                dataSourceWrapperProperties.setDriverClassName(dataSourceWrapperProperties.getHikari().getDriverClassName());
+            }
+
             HikariDataSource hikariDataSource = createDecoratedDataSource(dataSourceWrapperProperties);
             dataSourceMap.put(hikariDataSource.getPoolName(), hikariDataSource);
+
+            initializeDataSource(hikariDataSource);
+        }
+    }
+
+    private void initializeDataSource(HikariDataSource hikariDataSource) {
+        try {
+            Connection ignored = hikariDataSource.getConnection();
+            ignored.close();
+        } catch (SQLException e) {
+            throw new InitializingDataSourceException(e);
         }
     }
 
@@ -100,5 +117,12 @@ public class RoutingDataSourceConfiguration {
         routingDataSource.setLenientFallback(dataSourceRoutingProperties.isLenientFallback());
 
         return routingDataSource;
+    }
+
+    static class InitializingDataSourceException extends RuntimeException {
+
+        public InitializingDataSourceException(Throwable cause) {
+            super(cause);
+        }
     }
 }

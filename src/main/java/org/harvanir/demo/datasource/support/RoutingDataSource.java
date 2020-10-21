@@ -2,6 +2,7 @@ package org.harvanir.demo.datasource.support;
 
 import lombok.SneakyThrows;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
+import org.springframework.lang.NonNull;
 import org.springframework.util.Assert;
 
 import javax.sql.DataSource;
@@ -38,10 +39,10 @@ public class RoutingDataSource extends AbstractRoutingDataSource {
     @SuppressWarnings("unchecked")
     private void mapParentPrivateFields() {
         Field resolvedDataSourcesField = AbstractRoutingDataSource.class.getDeclaredField("resolvedDataSources");
-        resolvedDataSourcesField.setAccessible(true);
+        resolvedDataSourcesField.setAccessible(true); // NOSONAR
 
         Field resolvedDefaultDataSourceField = AbstractRoutingDataSource.class.getDeclaredField("resolvedDefaultDataSource");
-        resolvedDefaultDataSourceField.setAccessible(true);
+        resolvedDefaultDataSourceField.setAccessible(true); // NOSONAR
 
         this.resolvedDataSources = (Map<Object, DataSource>) resolvedDataSourcesField.get(this);
         this.resolvedDefaultDataSource = (DataSource) resolvedDefaultDataSourceField.get(this);
@@ -50,6 +51,7 @@ public class RoutingDataSource extends AbstractRoutingDataSource {
     /**
      * {@inheritDoc}
      */
+    @NonNull
     @Override
     protected DataSource determineTargetDataSource() {
         Assert.notNull(this.resolvedDataSources, "DataSource router not initialized");
