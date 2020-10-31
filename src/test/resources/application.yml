@@ -1,0 +1,5 @@
+custom:
+  testcontainers:
+    datasource:
+      additional-url: autoReconnect=true&useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Jakarta&TC_TMPFS=/var/lib/mysql:rw&TC_REUSABLE=false&TC_INITSCRIPT=db/migration/mysql/V1_1_1__create_items.sql
+#      additional-url: autoReconnect=true&useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Jakarta&TC_TMPFS=/var/lib/mysql:rw&TC_REUSABLE=true&TC_INITSCRIPT=db/migration/mysql/V1_1_1__create_items.sql # use this property to reuse container

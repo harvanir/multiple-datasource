@@ -3,7 +3,7 @@ spring:
     name: ds_1
     username: root
     password: password
-    url: jdbc:tc:mysql:5.7.31://127.0.0.1/ds_1?autoReconnect=true&useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Jakarta&TC_TMPFS=/var/lib/mysql:rw&TC_INITSCRIPT=db/migration/mysql/V1_1_1__create_items.sql
+    url: jdbc:tc:mysql:5.7.31://127.0.0.1/ds_1?${custom.testcontainers.datasource.additional-url}
     driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
     hikari:
       connection-test-query: SELECT 1;
@@ -38,7 +38,7 @@ app:
     - name: ds_1
       username: root
       password: password
-      url: jdbc:tc:mysql:5.7.31://127.0.0.1/ds_1?autoReconnect=true&useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Jakarta&TC_TMPFS=/var/lib/mysql:rw&TC_INITSCRIPT=db/migration/mysql/V1_1_1__create_items.sql
+      url: jdbc:tc:mysql:5.7.31://127.0.0.1/ds_1?${custom.testcontainers.datasource.additional-url}
       hikari:
         connection-test-query: SELECT 1;
         connection-timeout: 30000
@@ -51,7 +51,7 @@ app:
     - name: ds_2
       username: root
       password: password
-      url: jdbc:tc:mysql:5.7.31://127.0.0.1/ds_2?autoReconnect=true&useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Jakarta&TC_TMPFS=/var/lib/mysql:rw&TC_INITSCRIPT=db/migration/mysql/V1_1_1__create_items.sql
+      url: jdbc:tc:mysql:5.7.31://127.0.0.1/ds_2?${custom.testcontainers.datasource.additional-url}
       hikari:
         connection-test-query: SELECT 1;
         connection-timeout: 30000
@@ -64,7 +64,7 @@ app:
     - name: ds_3
       username: root
       password: password
-      url: jdbc:tc:mysql:5.7.31://127.0.0.1/ds_3?autoReconnect=true&useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Jakarta&TC_TMPFS=/var/lib/mysql:rw&TC_INITSCRIPT=db/migration/mysql/V1_1_1__create_items.sql
+      url: jdbc:tc:mysql:5.7.31://127.0.0.1/ds_3?${custom.testcontainers.datasource.additional-url}
       hikari:
         connection-test-query: SELECT 1;
         connection-timeout: 30000
