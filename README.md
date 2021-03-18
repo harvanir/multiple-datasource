@@ -126,7 +126,7 @@ public class Service {
         this.someJpaRepository = someJpaRepository;
     }
     
-    @RoutingDataSourceAwareTransactional(dataSourceRouteKey = "ds_2")
+    @RoutingDataSourceTransactional(dataSourceRouteKey = "ds_2")
     public void someMethod() {
         SomeJpaModel model = new SomeJpaModel();
         model.setId(UUID.randomUUID().toString());

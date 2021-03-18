@@ -1,6 +1,6 @@
 package org.harvanir.demo.datasource.configuration;
 
-import org.harvanir.demo.datasource.advice.RoutingDataSourceAwareTransactionalAspect;
+import org.harvanir.demo.datasource.advice.RoutingDataSourceTransactionalAspect;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 public class TransactionRoutingDataSourceConfiguration {
 
     @Bean
-    public RoutingDataSourceAwareTransactionalAspect routingDataSourceAwareTransactionalAspect() {
-        return new RoutingDataSourceAwareTransactionalAspect();
+    public RoutingDataSourceTransactionalAspect routingDataSourceTransactionalAspect() {
+        return new RoutingDataSourceTransactionalAspect();
     }
 }

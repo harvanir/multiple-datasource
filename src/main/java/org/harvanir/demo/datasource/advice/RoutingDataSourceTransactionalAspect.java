@@ -4,17 +4,20 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.harvanir.demo.datasource.support.DataSourceContextHolder;
+import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.util.StringUtils;
 
 /**
  * @author Harvan Irsyadi
+ * @see EnableTransactionManagement#order()
  */
 @Aspect
-@Order(0)
-public class RoutingDataSourceAwareTransactionalAspect {
+@Order(Ordered.LOWEST_PRECEDENCE - 1)
+public class RoutingDataSourceTransactionalAspect {
 
-    private Object openTheGateAndExecute(ProceedingJoinPoint proceedingJoinPoint, String dataSourceRouteKey, String previousRouteKey) throws Throwable {
+    private Object routeAndProceed(ProceedingJoinPoint proceedingJoinPoint, String dataSourceRouteKey, String previousRouteKey) throws Throwable {
         try {
             DataSourceContextHolder.setRouteKey(dataSourceRouteKey);
 
@@ -31,22 +34,22 @@ public class RoutingDataSourceAwareTransactionalAspect {
     }
 
     @Around("@annotation(transactional)")
-    Object around(ProceedingJoinPoint proceedingJoinPoint, RoutingDataSourceAwareTransactional transactional) throws Throwable {
+    Object around(ProceedingJoinPoint proceedingJoinPoint, RoutingDataSourceTransactional transactional) throws Throwable {
         String dataSourceRouteKey = transactional.dataSourceRouteKey();
 
         if (RouteContext.ALWAYS_NEW.equals(transactional.routeContext())) {
             String previousRouteKey = DataSourceContextHolder.getRouteKey();
             validateRouteKey(dataSourceRouteKey);
 
-            return openTheGateAndExecute(proceedingJoinPoint, dataSourceRouteKey, previousRouteKey);
+            return routeAndProceed(proceedingJoinPoint, dataSourceRouteKey, previousRouteKey);
         } else if (RouteContext.REQUIRED.equals(transactional.routeContext())) {
             validateRouteKey(dataSourceRouteKey);
 
             String previousRouteKey = DataSourceContextHolder.getRouteKey();
             if (previousRouteKey == null) {
-                return openTheGateAndExecute(proceedingJoinPoint, dataSourceRouteKey, null);
+                return routeAndProceed(proceedingJoinPoint, dataSourceRouteKey, null);
             } else if (!dataSourceRouteKey.equals(previousRouteKey)) {
-                return openTheGateAndExecute(proceedingJoinPoint, dataSourceRouteKey, previousRouteKey);
+                return routeAndProceed(proceedingJoinPoint, dataSourceRouteKey, previousRouteKey);
             }
         }
 

@@ -23,7 +23,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 @Transactional
-public @interface RoutingDataSourceAwareTransactional {
+public @interface RoutingDataSourceTransactional {
 
     @AliasFor(annotation = Transactional.class)
     String value() default "";

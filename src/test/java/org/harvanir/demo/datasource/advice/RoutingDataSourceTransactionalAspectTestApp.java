@@ -42,5 +42,5 @@ import org.springframework.boot.autoconfigure.websocket.servlet.WebSocketServlet
         TransactionAutoConfiguration.class, ValidationAutoConfiguration.class, WebMvcAutoConfiguration.class,
         WebSocketServletAutoConfiguration.class
 })
-public class RoutingDataSourceAwareTransactionalAspectTestApp {
+public class RoutingDataSourceTransactionalAspectTestApp {
 }

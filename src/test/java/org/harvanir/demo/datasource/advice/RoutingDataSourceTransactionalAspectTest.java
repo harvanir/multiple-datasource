@@ -24,8 +24,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ActiveProfiles("mysql")
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
-@SpringBootTest(classes = {RoutingDataSourceAwareTransactionalAspectTestApp.class, TransactionRoutingDataSourceConfiguration.class, RoutingDataSourceAwareTransactionalAspectTest.TestAspectConfiguration.class})
-class RoutingDataSourceAwareTransactionalAspectTest {
+@SpringBootTest(classes = {RoutingDataSourceTransactionalAspectTestApp.class, TransactionRoutingDataSourceConfiguration.class, RoutingDataSourceTransactionalAspectTest.TestAspectConfiguration.class})
+class RoutingDataSourceTransactionalAspectTest {
 
     @Autowired
     private Test1 test1;
@@ -190,7 +190,7 @@ class RoutingDataSourceAwareTransactionalAspectTest {
 
     static class Test1Impl implements Test1 {
 
-        @RoutingDataSourceAwareTransactional(dataSourceRouteKey = "ds_2")
+        @RoutingDataSourceTransactional(dataSourceRouteKey = "ds_2")
         @Override
         public void method1() {
             String routeKey = DataSourceContextHolder.getRouteKey();
@@ -207,7 +207,7 @@ class RoutingDataSourceAwareTransactionalAspectTest {
             this.proxy = proxy;
         }
 
-        @RoutingDataSourceAwareTransactional(dataSourceRouteKey = "ds_2")
+        @RoutingDataSourceTransactional(dataSourceRouteKey = "ds_2", readOnly = true)
         @Override
         public void method1() {
             String routeKey = DataSourceContextHolder.getRouteKey();
@@ -220,7 +220,7 @@ class RoutingDataSourceAwareTransactionalAspectTest {
             assertEquals(routeKey, innerRouteKey);
         }
 
-        @RoutingDataSourceAwareTransactional(dataSourceRouteKey = "ds_2")
+        @RoutingDataSourceTransactional(dataSourceRouteKey = "ds_2")
         @Override
         public void method2() {
             String routeKey = DataSourceContextHolder.getRouteKey();
@@ -237,7 +237,7 @@ class RoutingDataSourceAwareTransactionalAspectTest {
             this.proxy = proxy;
         }
 
-        @RoutingDataSourceAwareTransactional(dataSourceRouteKey = "ds_2")
+        @RoutingDataSourceTransactional(dataSourceRouteKey = "ds_2")
         @Override
         public void method1() {
             String routeKey = DataSourceContextHolder.getRouteKey();
@@ -250,7 +250,7 @@ class RoutingDataSourceAwareTransactionalAspectTest {
             assertEquals(routeKey, actualRouteKey);
         }
 
-        @RoutingDataSourceAwareTransactional(dataSourceRouteKey = "ds_2", routeContext = RouteContext.REQUIRED)
+        @RoutingDataSourceTransactional(dataSourceRouteKey = "ds_2", routeContext = RouteContext.REQUIRED)
         @Override
         public void method2() {
             String routeKey = DataSourceContextHolder.getRouteKey();
@@ -274,7 +274,7 @@ class RoutingDataSourceAwareTransactionalAspectTest {
             assertNull(DataSourceContextHolder.getRouteKey());
         }
 
-        @RoutingDataSourceAwareTransactional(dataSourceRouteKey = "ds_2")
+        @RoutingDataSourceTransactional(dataSourceRouteKey = "ds_2")
         @Override
         public void method1() {
             String routeKey = DataSourceContextHolder.getRouteKey();
@@ -288,7 +288,7 @@ class RoutingDataSourceAwareTransactionalAspectTest {
             assertEquals(routeKey, lastRouteKey);
         }
 
-        @RoutingDataSourceAwareTransactional(dataSourceRouteKey = "ds_3", routeContext = RouteContext.REQUIRED)
+        @RoutingDataSourceTransactional(dataSourceRouteKey = "ds_3", routeContext = RouteContext.REQUIRED)
         @Override
         public void method2() {
             String routeKey = DataSourceContextHolder.getRouteKey();
@@ -312,7 +312,7 @@ class RoutingDataSourceAwareTransactionalAspectTest {
             assertNull(DataSourceContextHolder.getRouteKey());
         }
 
-        @RoutingDataSourceAwareTransactional(dataSourceRouteKey = "ds_2", routeContext = RouteContext.REQUIRED)
+        @RoutingDataSourceTransactional(dataSourceRouteKey = "ds_2", routeContext = RouteContext.REQUIRED)
         @Override
         public void method2() {
             String routeKey = DataSourceContextHolder.getRouteKey();
@@ -323,7 +323,7 @@ class RoutingDataSourceAwareTransactionalAspectTest {
 
     static class Test6Impl implements Test6 {
 
-        @RoutingDataSourceAwareTransactional(dataSourceRouteKey = "ds_2", routeContext = RouteContext.REUSE)
+        @RoutingDataSourceTransactional(dataSourceRouteKey = "ds_2", routeContext = RouteContext.REUSE)
         public void method1() {
             String routeKey = DataSourceContextHolder.getRouteKey();
             assertNull(routeKey);
@@ -332,22 +332,22 @@ class RoutingDataSourceAwareTransactionalAspectTest {
 
     static class Test7Impl implements Test7 {
 
-        @RoutingDataSourceAwareTransactional(dataSourceRouteKey = "")
+        @RoutingDataSourceTransactional(dataSourceRouteKey = "")
         @Override
         public void method1() {
         }
 
-        @RoutingDataSourceAwareTransactional(dataSourceRouteKey = " safdkjljkasfd")
+        @RoutingDataSourceTransactional(dataSourceRouteKey = " safdkjljkasfd")
         @Override
         public void method2() {
         }
 
-        @RoutingDataSourceAwareTransactional(dataSourceRouteKey = "safdkjl jkasfd")
+        @RoutingDataSourceTransactional(dataSourceRouteKey = "safdkjl jkasfd")
         @Override
         public void method3() {
         }
 
-        @RoutingDataSourceAwareTransactional(dataSourceRouteKey = "safdkjl ")
+        @RoutingDataSourceTransactional(dataSourceRouteKey = "safdkjl ")
         @Override
         public void method4() {
         }
