@@ -7,7 +7,7 @@ import org.harvanir.demo.datasource.support.DataSourceContextHolder;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.util.StringUtils;
+import org.springframework.util.ObjectUtils;
 
 /**
  * @author Harvan Irsyadi
@@ -57,7 +57,7 @@ public class RoutingDataSourceTransactionalAspect {
     }
 
     private void validateRouteKey(String dataSourceRouteKey) {
-        if (StringUtils.isEmpty(dataSourceRouteKey) || dataSourceRouteKey.contains(" ")) {
+        if (ObjectUtils.isEmpty(dataSourceRouteKey) || dataSourceRouteKey.contains(" ")) {
             throw new InvalidRouteKeyException(String.format("Invalid data source routing key: \"%s\"", dataSourceRouteKey));
         }
     }

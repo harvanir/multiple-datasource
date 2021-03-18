@@ -1,6 +1,5 @@
 package org.harvanir.demo.datasource.advice;
 
-import org.harvanir.demo.datasource.configuration.TransactionRoutingDataSourceConfiguration;
 import org.harvanir.demo.datasource.support.DataSourceContextHolder;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
@@ -23,8 +22,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  */
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ActiveProfiles("mysql")
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
-@SpringBootTest(classes = {RoutingDataSourceTransactionalAspectTestApp.class, TransactionRoutingDataSourceConfiguration.class, RoutingDataSourceTransactionalAspectTest.TestAspectConfiguration.class})
+@TestMethodOrder(MethodOrderer.MethodName.class)
+@SpringBootTest(classes = {RoutingDataSourceTransactionalAspectTestApp.class, RoutingDataSourceTransactionalAspectTest.TestAspectConfiguration.class})
 class RoutingDataSourceTransactionalAspectTest {
 
     @Autowired

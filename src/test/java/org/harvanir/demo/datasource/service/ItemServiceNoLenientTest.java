@@ -22,7 +22,7 @@ import java.math.BigDecimal;
  */
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ActiveProfiles("mysqlnoleinent")
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+@TestMethodOrder(MethodOrderer.MethodName.class)
 @SpringBootTest(classes = ItemServiceConfiguration.class)
 class ItemServiceNoLenientTest {
 

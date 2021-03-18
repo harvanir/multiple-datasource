@@ -1,2 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+org.harvanir.demo.datasource.configuration.RoutingDataSourceAutoConfiguration,\
+org.harvanir.demo.datasource.configuration.TransactionRoutingDataSourceAutoConfiguration,\
 org.harvanir.demo.datasource.configuration.DataSourceMetricsAutoConfiguration

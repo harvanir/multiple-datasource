@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ActiveProfiles("mysql")
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+@TestMethodOrder(MethodOrderer.MethodName.class)
 @SpringBootTest(classes = ItemServiceConfiguration.class)
 class ItemServiceTest {
 

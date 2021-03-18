@@ -3,6 +3,8 @@ package org.harvanir.demo.datasource.configuration;
 import com.zaxxer.hikari.HikariDataSource;
 import org.harvanir.demo.datasource.support.RoutingDataSource;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -23,9 +25,10 @@ import java.util.Map;
  *
  * @author Harvan Irsyadi
  */
+@AutoConfigureBefore({DataSourceAutoConfiguration.class})
 @Configuration(proxyBeanMethods = false)
-@EnableConfigurationProperties({DataSourceWrapperProperties.class, DataSourceRoutingProperties.class})
-public class RoutingDataSourceConfiguration {
+@EnableConfigurationProperties({DataSourceWrapperProperties.class, DataSourceRoutingProperties.class, AppProperties.class})
+public class RoutingDataSourceAutoConfiguration {
 
     private static final String DATA_SOURCE = "dataSource";
 
@@ -79,7 +82,7 @@ public class RoutingDataSourceConfiguration {
     }
 
     private void populateTargetDataSource(AppProperties appProperties, Map<Object, Object> dataSourceMap) {
-        for (DataSourceWrapperProperties dataSourceWrapperProperties : appProperties.getDatasources()) {
+        appProperties.getDatasources().parallelStream().forEach(dataSourceWrapperProperties -> {
             if (dataSourceWrapperProperties.getDriverClassName() == null) {
                 dataSourceWrapperProperties.setDriverClassName(dataSourceWrapperProperties.getHikari().getDriverClassName());
             }
@@ -88,7 +91,7 @@ public class RoutingDataSourceConfiguration {
             dataSourceMap.put(hikariDataSource.getPoolName(), hikariDataSource);
 
             initializeDataSource(hikariDataSource);
-        }
+        });
     }
 
     private void initializeDataSource(HikariDataSource hikariDataSource) {

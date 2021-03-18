@@ -1,6 +1,7 @@
 # Getting Started
 
 ## Application properties
+
 ```yaml
 spring:
   datasource:
@@ -58,54 +59,35 @@ app:
         minimum-idle: 5
         validation-timeout: 28000
 ```
+
 ## Configuration
-* Import <code>org.harvanir.demo.datasource.configuration.RoutingDataSourceConfiguration</code>, <code>org.harvanir.demo.datasource.configuration.TransactionRoutingDataSourceConfiguration</code> class to your spring boot configuration.
-    ```java
-    import org.harvanir.demo.datasource.configuration.AppConfiguration;
-    import org.harvanir.demo.datasource.configuration.RoutingDataSourceConfiguration;
-    import org.harvanir.demo.datasource.configuration.TransactionRoutingDataSourceConfiguration;
-    import org.springframework.context.annotation.Configuration;
-    import org.springframework.context.annotation.Import;
-    
-    @Import({AppConfiguration.class, RoutingDataSourceConfiguration.class, TransactionRoutingDataSourceConfiguration.class})
-    @Configuration
-    public class YourConfiguration {
-    }
-    ```
-* Or annotate your spring boot configuration class using <code>org.harvanir.demo.datasource.configuration.EnableRoutingDataSource</code>, <code>org.harvanir.demo.datasource.configuration.EnableTransactionRoutingDataSource</code>
-    ```java
-    import org.harvanir.demo.datasource.configuration.EnableRoutingDataSource;
-    import org.harvanir.demo.datasource.configuration.EnableTransactionRoutingDataSource;
-    import org.springframework.context.annotation.Configuration;
-      
-    @EnableRoutingDataSource
-    @EnableTransactionRoutingDataSource
-    @Configuration
-    public class YourConfiguration {
-    }
-    ```
+
+No manual configuration needed.
+
 ## Usage
+
 ### Programmatic
+
 ```java
 public class Service {
-    
+
     private final SomeJpaRepsitory someJpaRepository;
 
     public Service(SomeJpaRepository someJpaRepository) {
         this.someJpaRepository = someJpaRepository;
     }
-    
+
     public void someMethod() {
         try {
             String dataSourceKey = "ds_2"; // Based on our application properties, the key should be around ("ds_2", "ds_3");
             DataSourceContextHolder.setRouteKey(dataSourceKey);
-            
+
             SomeJpaModel model = new SomeJpaModel();
             model.setId(UUID.randomUUID().toString());
-            
+
             someJpaRepository.save(model);
             Optional<SomeJpaModel> optional = someJpaRepository.findById(model.getId());
-            
+
             if (!optional.isPresent()) {
                 throw new Exception("This is something impossible...");
             }
@@ -115,25 +97,28 @@ public class Service {
     }
 }
 ```
+
 ### Annotation based
+
 ```java
+
 @org.springframework.stereotype.Service
 public class Service {
-    
+
     private final SomeJpaRepsitory someJpaRepository;
 
     public Service(SomeJpaRepository someJpaRepository) {
         this.someJpaRepository = someJpaRepository;
     }
-    
+
     @RoutingDataSourceTransactional(dataSourceRouteKey = "ds_2")
     public void someMethod() {
         SomeJpaModel model = new SomeJpaModel();
         model.setId(UUID.randomUUID().toString());
-        
+
         someJpaRepository.save(model);
         Optional<SomeJpaModel> optional = someJpaRepository.findById(model.getId());
-        
+
         if (!optional.isPresent()) {
             throw new Exception("This is something impossible...");
         }

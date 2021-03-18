@@ -54,7 +54,7 @@ public class RoutingDataSource extends AbstractRoutingDataSource {
     @NonNull
     @Override
     protected DataSource determineTargetDataSource() {
-        Assert.notNull(this.resolvedDataSources, "DataSource router not initialized");
+        Assert.notNull(this.resolvedDataSources, () -> "DataSource router not initialized");
         Object lookupKey = determineCurrentLookupKey();
         DataSource dataSource = null;
 
